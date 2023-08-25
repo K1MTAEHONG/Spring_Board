@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.dao.CommentDAO">
+
+    <select id="selectAllComment" resultType="com.example.demo.model.CommentModel">
+        select * from tb_comment;
+    </select>
+
+    <select id="selectComment" resultType="com.example.demo.model.CommentModel">
+            SELECT * FROM tb_comment WHERE no = #{no}
+    </select>
+
+    <insert id="insertComment" parameterType="com.example.demo.model.CommentModel">
+        INSERT INTO tb_comment(author, comment, date)
+        VALUES (#{author}, #{comment}, now());
+    </insert>
+
+    <delete id ="deleteComment" parameterType="int">
+        DELETE FROM spring_db.tb_comment WHERE no = #{no};
+    </delete>
+
+    <update id="updateComment" parameterType="com.example.demo.model.CommentModel">
+        UPDATE  tb_comment SET author= #{author}, comment=#{comment} WHERE no = #{no}
+    </update>
+</mapper>
