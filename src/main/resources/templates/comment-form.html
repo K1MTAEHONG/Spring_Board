@@ -10,7 +10,7 @@
     <h1>댓글 수정</h1>
     <form th:action="@{/comments/__${comment.no}__}" action="/comments/" method="post">
         <div class="input-group">
-            <input class="form-control" type="text" name="author" th:value= "${comment.author}" value="" placeholder="작성자 이름">
+            <input class="form-control" type="text" name="author" th:value= "${comment.author}" value="" placeholder="작성자 이름?">
             <input class="form-control" type="text" name="comment" th:value= "${comment.comment}" value="" placeholder="댓글 내용 입력">
             <button class="btn btn-outline-secondary" type="submit">저장</button>
         </div>
