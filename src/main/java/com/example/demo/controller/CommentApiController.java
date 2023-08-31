@@ -25,8 +25,14 @@ public class CommentApiController {
     @PostMapping("/api/comments")
     public CommentModel postComment(@RequestBody CommentModel comment) {
         //등록 처리
-        int no = commentService.createComment(comment);
-        return commentService.getComment(no);
+        return commentService.createComment(comment);
 
+    }
+
+    // 댓글 수정 API
+    @PutMapping("/api/comments/{no}")
+    public CommentModel modifyComment(@RequestBody CommentModel comment, @PathVariable int no){
+        comment.setNo(no);
+        return commentService.updateComment(comment);
     }
 }
