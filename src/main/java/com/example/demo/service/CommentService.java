@@ -12,18 +12,21 @@ public class CommentService {
 
     @Autowired
     private CommentDAO commentDAO;
+
     //댓글 조회
     public CommentModel getComment(int no){
         return commentDAO.selectComment(no);
     }
+
     // 모든 댓글 목록
-    public List<CommentModel> getALlCommentList(){
-        return commentDAO.selectAllComment();
-    }
+    public List<CommentModel> getALlCommentList(){return commentDAO.selectAllComment();}
+
 
     // 댓글 등록
-    public void createComment(CommentModel commentModel){
+    public int createComment(CommentModel commentModel) {
+
         commentDAO.insertComment(commentModel);
+        return commentModel.getNo();
     }
 
     // 댓글 수정
