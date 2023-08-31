@@ -35,4 +35,14 @@ public class CommentApiController {
         comment.setNo(no);
         return commentService.updateComment(comment);
     }
+
+    //댓글 삭제 API
+    @DeleteMapping("/api/comments/{no}")
+    public String DeleteComment(@PathVariable int no) {
+
+        commentService.deleteComment(no);
+        return "OK";
+
+
+    }
 }
