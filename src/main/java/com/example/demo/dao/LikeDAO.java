@@ -9,10 +9,10 @@ public interface LikeDAO {
     int selectLikeCount(@Param("contentType") String contentType,
                         @Param("contentNo") int contentNo);
 
-    //void insertLike(String contentType, int contentNo);
+    void insertLike(String contentType, int contentNo);
 
-   // void deleteLike(String contentType, int contentNo);
+    void deleteLike(String contentType, int contentNo);
 
-    //int increaseLikeCount(String contentType, int contentNo);
+    int increaseLikeCount(String contentType, int contentNo);
 
 }

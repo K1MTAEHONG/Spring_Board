@@ -34,6 +34,7 @@ public class CommentService {
 
     public CommentModel createComment(CommentModel commentModel) {
         commentDAO.insertComment(commentModel);
+        likeDAO.insertLike("COMMENT", commentModel.getNo());
         return getComment(commentModel.getNo());
     }
 
@@ -46,5 +47,6 @@ public class CommentService {
     // 댓글 삭제
     public void deleteComment(int no){
         commentDAO.deleteComment(no);
+        likeDAO.deleteLike("COMMENT", no);
     }
 }
