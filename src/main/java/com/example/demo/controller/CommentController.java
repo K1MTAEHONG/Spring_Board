@@ -6,11 +6,13 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class CommentController {
@@ -30,16 +32,16 @@ public class CommentController {
 
     // 댓글 등록 처리
     @PostMapping("/comments")
-    public String createComment(@Valid CommentModel commentModel){
-        commentService.createComment(commentModel);
+    public String createComment(@Valid CommentModel commentModel, BindingResult bindingResult, Model model){
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errMessage", bindingResult.getFieldError().getDefaultMessage());
+            return getComments(model);
+        }else{
+            commentService.createComment(commentModel);
+        }
         return "redirect:/";
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public String handError(Model model){
-        model.addAttribute("message", "뭔가 잘못된 항목이 있어요.");
-        return "error";
-    }
 
     // 댓글 수정 화면 요청 처리
     @GetMapping("/comments/{no}")   //화면을 가져오는건 GetMapping 씀
@@ -51,7 +53,7 @@ public class CommentController {
         return "comment-form";
     }
 
-
+    // 댓글 수정 요청 처리
     @PostMapping("/comments/{no}")
     public String modifyComment(@PathVariable int no, CommentModel commentModel) {
         //댓글 정보 update 처리
