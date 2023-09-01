@@ -40,11 +40,18 @@
             </td>
             <td><a class="btn btn-outline-danger" th:href ="@{/comments/__${comment.no}__}" href="/comments/1">수정</a>
             </td>
-            <td th:text="${comment.likeCount}"> </td>
+            <td th:onclick = "|like(${comment.no});|" th:text="${comment.likeCount}"> </td>
         </tr>
     </table>
 </div>
 <script>
+
+    function  like(no) {
+       // Put 요청을 서버로 날려 준다.
+        fetch("/api/likes/comment" + no,{
+            method: "PUT", // *GET, POST , PUT , DELETE 등
+        }).then(reloadPage);
+    }
 
     function deleteComment(no) {
         if(confirm('삭제하시겠습니까?')) {
