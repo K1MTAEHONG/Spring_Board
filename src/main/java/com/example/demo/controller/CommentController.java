@@ -2,10 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.model.CommentModel;
 import com.example.demo.service.CommentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
 
@@ -20,18 +23,22 @@ public class CommentController {
     public String getComments(Model model) {
 
         List<CommentModel> cmList = commentService.getALlCommentList();
-        model.addAttribute("commentList" ,cmList);//댓글 리스트 view로 전달한다
+        model.addAttribute("commentList",cmList);//댓글 리스트 view로 전달한다
 
         return "main";          //main 이란 application.yml 에 보면 thymeleaf의  prefix의 부분을 나타냄
     }
 
     // 댓글 등록 처리
     @PostMapping("/comments")
-    public String createComment(CommentModel commentModel) {
-
+    public String createComment(@Valid CommentModel commentModel){
         commentService.createComment(commentModel);
-
         return "redirect:/";
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public String handError(Model model){
+        model.addAttribute("message", "뭔가 잘못된 항목이 있어요.");
+        return "error";
     }
 
     // 댓글 수정 화면 요청 처리

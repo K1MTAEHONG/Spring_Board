@@ -3,11 +3,14 @@ package com.example.demo.service;
 import com.example.demo.dao.CommentDAO;
 import com.example.demo.dao.LikeDAO;
 import com.example.demo.model.CommentModel;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
+@Validated
 @Service
 public class CommentService {
 
@@ -19,10 +22,9 @@ public class CommentService {
 
     //댓글 조회
     public CommentModel getComment(int no){
-
         CommentModel comment = commentDAO.selectComment(no);
         comment.setLikeCount(likeDAO.selectLikeCount("COMMENT", comment.getNo()));
-        return commentDAO.selectComment(no);
+        return comment;
     }
 
     // 모든 댓글 목록
@@ -32,7 +34,7 @@ public class CommentService {
 
     // 댓글 등록
 
-    public CommentModel createComment(CommentModel commentModel) {
+    public CommentModel createComment(@Valid CommentModel commentModel) {
         commentDAO.insertComment(commentModel);
         likeDAO.insertLike("COMMENT", commentModel.getNo());
         return getComment(commentModel.getNo());

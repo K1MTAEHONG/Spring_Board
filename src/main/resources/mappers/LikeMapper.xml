@@ -4,7 +4,7 @@
 <mapper namespace="com.example.demo.dao.LikeDAO">
 
     <select id="selectLikeCount" resultType="int">
-        select ifnull((SELECT count FROM tb_like WHERE content_type = 'COMMENT' and content_no = #{contentNo}), 0)
+        select ifnull((SELECT count FROM tb_like WHERE content_type = #{contentType} and content_no = #{contentNo}), 0)
     </select>
 
     <insert id="insertLike" >
@@ -13,10 +13,10 @@
     </insert>
 
     <delete id="deleteLike">
-        DELETE FROM tb_like WHERE contetn_type = 'COMMENT' and content_no = #{contentNo})
+        DELETE FROM tb_like WHERE contetn_type = #{contentType} and content_no = #{contentNo})
     </delete>
     <update id="increaseLikeCount">
-        update tb_like set count = count +1 WHERE content_type =#{contentType} and content_no = #{contentNo};
+        update tb_like set count = count+1 WHERE content_type = #{contentType} and content_no = #{contentNo};
     </update>
 
 </mapper>

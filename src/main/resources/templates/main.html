@@ -48,7 +48,7 @@
 
     function  like(no) {
        // Put 요청을 서버로 날려 준다.
-        fetch("/api/likes/comment" + no,{
+        fetch(`/api/likes/comment/${no}`,{
             method: "PUT", // *GET, POST , PUT , DELETE 등
         }).then(reloadPage);
     }
