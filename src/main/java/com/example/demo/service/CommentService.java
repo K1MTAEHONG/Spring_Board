@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.CommentDAO;
+import com.example.demo.dao.LikeDAO;
 import com.example.demo.model.CommentModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,14 +14,21 @@ public class CommentService {
     @Autowired
     private CommentDAO commentDAO;
 
+    @Autowired
+    private  LikeDAO likeDAO;
+
     //댓글 조회
     public CommentModel getComment(int no){
+
+        CommentModel comment = commentDAO.selectComment(no);
+        comment.setLikeCount(likeDAO.selectLikeCount("COMMENT", comment.getNo()));
         return commentDAO.selectComment(no);
     }
 
     // 모든 댓글 목록
-    public List<CommentModel> getALlCommentList(){return commentDAO.selectAllComment();}
-
+    public List<CommentModel> getALlCommentList(){
+        return commentDAO.selectAllComment();
+    }
 
     // 댓글 등록
 

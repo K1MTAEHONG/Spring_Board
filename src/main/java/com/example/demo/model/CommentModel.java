@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -11,5 +10,7 @@ public class CommentModel {
     private int no;
     private  String author;
     private  String comment;
-    private LocalDateTime date;
+    private LocalDateTime modDatetime;
+    private LocalDateTime regDatetime;
+    private int likeCount;
 }

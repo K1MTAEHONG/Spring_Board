@@ -23,17 +23,24 @@
             <th>번호</th>
             <th>작성자</th>
             <th>댓글</th>
-            <th>날짜</th>
+            <th>등록일</th>
+            <th>수정일</th>
             <th>삭제</th>
             <th>수정</th>
+            <th>좋아요</th>
         </tr>
         <tr th:each ="comment : ${commentList}">
             <td th:text ="${comment.no}">1</td>
             <td th:text ="${comment.author}">스프링</td>
             <td th:text ="${comment.comment}">안녕하세요~</td>
-            <td th:text ="${#temporals.format(comment.date,'yyyy.MM.dd HH:mm')}">2023-08-24</td>
-            <td> <button class ="btn btn-outline-dark" th:onclick="|deleteComment([[${comment.no}]])|">삭제</button> </td>
-            <td> <a class="btn btn-outline-danger" th:href ="@{/comments/__${comment.no}__}" href="/comments/1">수정</a> </td>
+            <td th:text ="${#temporals.format(comment.regDatetime,'yyyy.MM.dd HH:mm')}">2023-08-24</td>
+            <td th:text ="${#temporals.format(comment.modDatetime,'yyyy.MM.dd HH:mm')}">2023-08-24</td>
+            <td>
+                <button class ="btn btn-outline-dark" th:onclick="|deleteComment([[${comment.no}]])|">삭제</button>
+            </td>
+            <td><a class="btn btn-outline-danger" th:href ="@{/comments/__${comment.no}__}" href="/comments/1">수정</a>
+            </td>
+            <td th:text="${comment.likeCount}"> </td>
         </tr>
     </table>
 </div>

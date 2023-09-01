@@ -19,3 +19,4 @@ public interface CommentDAO {
 
     void updateComment(CommentModel comment);
 }
+
