@@ -60,6 +60,7 @@ public class CommentController {
         commentModel.setNo(no);
         commentService.updateComment(commentModel);
 
+
         return "redirect:/";
     }
 
