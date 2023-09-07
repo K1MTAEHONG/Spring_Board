@@ -13,9 +13,6 @@ public class PreventFuxxValidator implements ConstraintValidator<Author,String> 
 
     @Override
     public boolean isValid(String field, ConstraintValidatorContext constraintValidatorContext){
-        if(field ==null) {
-            return true;
-        }
 
         for (String f : fuxxList) {
             if(field != null && field.contains(f)) {
