@@ -13,6 +13,7 @@ public class LikeApiController {
     @Autowired
     private LikeService likeService;
     @PutMapping("/api/likes/comment/{commentNo}")
+
     public LikeModel increaseCommentLikeCount(@PathVariable int commentNo){
         return new LikeModel("COMMENT", commentNo, likeService.increaseCommentLikeCount(commentNo));
     }

@@ -33,12 +33,13 @@ public class CommentController {
     // 댓글 등록 처리
     @PostMapping("/comments")
     public String createComment(@Valid CommentModel commentModel, BindingResult bindingResult, Model model){
-        if (bindingResult.hasErrors()) {
+        if (bindingResult.hasFieldErrors()) {
             model.addAttribute("errMessage", bindingResult.getFieldError().getDefaultMessage());
             return getComments(model);
         }else{
             commentService.createComment(commentModel);
         }
+
         return "redirect:/";
     }
 
