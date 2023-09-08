@@ -5,6 +5,8 @@ import com.example.demo.dao.LikeDAO;
 import com.example.demo.model.CommentModel;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -18,9 +20,10 @@ public class CommentService {
     private CommentDAO commentDAO;
 
     @Autowired
-    private  LikeDAO likeDAO;
+    private LikeDAO likeDAO;
 
     //댓글 조회
+    @PostAuthorize("hasRole('ROLE_USER') and (returnObject.userId == principal.username)")
     public CommentModel getComment(int no){
         CommentModel comment = commentDAO.selectComment(no);
         comment.setLikeCount(likeDAO.selectLikeCount("COMMENT", comment.getNo()));
@@ -34,7 +37,7 @@ public class CommentService {
 
     // 댓글 등록
 
-    public CommentModel createComment(@Valid CommentModel commentModel) {
+    public CommentModel createComment(CommentModel commentModel) {
         commentDAO.insertComment(commentModel);
         likeDAO.insertLike("COMMENT", commentModel.getNo());
         return getComment(commentModel.getNo());
