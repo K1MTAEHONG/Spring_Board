@@ -41,7 +41,7 @@
             <td>
                 <button class="btn btn-outline-dark" th:onclick="|deleteComment(${comment.no})|">삭제</button>
             </td>
-            <td><a class="btn btn-outline-danger" th:href="@{/comments/${comment.no}}" href="/comments/1">수정</a>
+            <td><a class="btn btn-outline-danger" th:href="@{/comments/__${comment.no}__}" href="/comments/1">수정</a>
             </td>
             <td th:onclick="|like(${comment.no});|" th:text="${comment.likeCount}"> </td>
         </tr>
