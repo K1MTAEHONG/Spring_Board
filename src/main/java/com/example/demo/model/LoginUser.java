@@ -10,7 +10,7 @@ import java.util.Collection;
 @Getter
 public class LoginUser extends User {
 
-    String name;
+    private String name;
 
     public LoginUser(String userId, String password, Collection<? extends GrantedAuthority> authorities) {
         super(userId, password, authorities);

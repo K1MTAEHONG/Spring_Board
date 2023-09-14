@@ -33,7 +33,7 @@ public class CommentController {
 
     // 댓글 목록 화면
     @GetMapping("/comments")
-    public String getComments(Model model, CommentModel commentModel, @AuthenticationPrincipal LoginUser user) {
+    public String getComments(Model model, CommentModel commentModel) {
 
         //로그인 유저 정보를 구하는 첫번째 방법
         //Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -42,7 +42,8 @@ public class CommentController {
         //System.out.println(principal.toString());
         // model.addAttribute("userName", ((User) principal).getUsername());    // 강제로 형 변환
         //}
-        model.addAttribute("userName", Optional.ofNullable(user).map(LoginUser::getName).orElse("익명"));
+
+        //model.addAttribute("userName", Optional.ofNullable(user).map(LoginUser::getName).orElse("익명"));
 
         List<CommentModel> cmList = commentService.getALlCommentList();
         model.addAttribute("commentList", cmList);//댓글 리스트 view로 전달한다
@@ -53,11 +54,14 @@ public class CommentController {
     // 댓글 등록 처리
     @PostMapping("/comments")
     public String createComment(@Valid CommentModel commentModel, BindingResult bindingResult,
-                                @AuthenticationPrincipal LoginUser user, Model model){
+                                 Model model, Principal principal){
         if (bindingResult.hasFieldErrors()) {
             model.addAttribute("errMessage", bindingResult.getFieldError().getDefaultMessage());
-            return getComments(model, commentModel, user);
-        }else{
+            return getComments(model, commentModel);
+        }else {
+            if(principal != null){
+                commentModel.setUserId(principal.getName());
+            }
             commentService.createComment(commentModel);
         }
 
