@@ -13,8 +13,8 @@
     </select>
 
     <insert id="insertComment" parameterType="com.example.demo.model.CommentModel" useGeneratedKeys="true" keyProperty="no">
-        INSERT INTO tb_comment(author, comment, reg_datetime)
-        VALUES (#{author}, #{comment}, now());
+        INSERT INTO tb_comment(author, comment,user_id, reg_datetime)
+        VALUES (#{author}, #{comment},#{userId}, now());
     </insert>
 
     <delete id ="deleteComment" parameterType="int">
