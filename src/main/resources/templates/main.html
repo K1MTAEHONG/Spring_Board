@@ -11,6 +11,7 @@
 <div id="form" class="m-5 p-5 border mw-1200">
     <h1>댓글 작성</h1>
     <form action="/comments" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <div class="input-group">
             <input class="form-control" type="text" name="author" th:value="${commentModel.author}" value="" placeholder="작성자 이름" >
             <input class="form-control" type="text" name="comment" th:value="${commentModel.comment}" value="" placeholder="댓글 내용 입력" >
