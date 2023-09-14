@@ -13,18 +13,19 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity      //스프링 시큐리티를 활성화 하고 모든 요청에 영향을 끼친다
-@EnableMethodSecurity(prePostEnabled = true , securedEnabled = true)
+//@EnableMethodSecurity(prePostEnabled = true , securedEnabled = true)
 public class SecurityConfig {
 
     @Bean               //필요한 객체 들을 관리 하는 것  빈을 달아놓으면 filterChain으로 한다
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                //.authorizeHttpRequests((request) -> request.requestMatchers(new AntPathRequestMatcher("/comments/*")).hasAuthority("ROLE_ADMIN"))
-                .authorizeHttpRequests((request) -> request.requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-                .csrf((csrf) -> csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/**")))
-                .formLogin((formLogin) -> formLogin
+                .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+                        .requestMatchers(new AntPathRequestMatcher("/comments/*")).hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+                .formLogin((formLogin) -> formLogin/*로그인 Url 생성*/
                         .defaultSuccessUrl("/"))
-                .logout((logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/users/logout"))
+                .logout((logout) -> logout
+                        .logoutRequestMatcher(new AntPathRequestMatcher("/users/logout"))
                         .logoutSuccessUrl("/")
                         .invalidateHttpSession(true))
         ;
