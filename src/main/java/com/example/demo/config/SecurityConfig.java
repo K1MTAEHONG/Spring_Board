@@ -22,7 +22,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers(new AntPathRequestMatcher("/comments/*")).hasAuthority("ROLE_ADMIN")
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-                .formLogin((formLogin) -> formLogin/*로그인 Url 생성*/
+                .csrf((csrf) -> csrf
+                        .ignoringRequestMatchers(new AntPathRequestMatcher("/api/**")))
+                .formLogin((formLogin) -> formLogin/*로그인 Url 생성 */
+                        .loginPage("/users/login")
+                        .usernameParameter("userId")
+                        .passwordParameter("password")
                         .defaultSuccessUrl("/"))
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/users/logout"))

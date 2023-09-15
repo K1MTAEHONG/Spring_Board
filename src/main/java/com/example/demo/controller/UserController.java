@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.UserModel;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,11 @@ public class UserController {
     private UserService userService;
 
     // 로그인 페이지
+    @GetMapping("/users/login")
+    public String login() {
+        return "login";
+
+    }
 
     // 회원 등록 페이지
     @GetMapping("/users/join")
@@ -25,8 +31,14 @@ public class UserController {
 
     // 회원 등록 처리
     @PostMapping("/users")
-    public String postUser(UserModel user) {
-        userService.insertUser(user);
+    public String postUser(UserModel user, Model model) {
+        try {
+            userService.insertUser(user);
+        }catch (DataIntegrityViolationException ex) {
+            model.addAttribute("errMessage","사용할수 없는 ID입니다.");
+            model.addAttribute("user", user);
+            return "join";
+        }
         return "redirect:/";
     }
 
