@@ -1,15 +1,14 @@
 package com.example.demo.service;
 
+import com.example.demo.enums.UserRole;
 import com.example.demo.model.LoginUser;
 import com.example.demo.model.UserModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -29,20 +28,24 @@ public class UserSecurityService implements UserDetailsService {
         // TODO: 만드예정임
         UserModel user = userService.selectUserByUserId(username);
 
+        System.out.println("로그인 인증:" + username);
+
         if(ObjectUtils.isEmpty(user)){
             throw new UsernameNotFoundException("없는 사용자입니다.");
         }
 
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        if("admin".equals(user.getUserId())){
-            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        //UserRole.findBy("ROLE_ADMIN"). getValueKor(); // "관리자"
+
+        if("admin".equals(user.getUserId())) {
+            authorities.add(new SimpleGrantedAuthority(UserRole.ADMIN.getValue()));
+            authorities.add(new SimpleGrantedAuthority(UserRole.USER.getValue()));
         } else {
-            authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            authorities.add(new SimpleGrantedAuthority(UserRole.USER.getValue()));
 
         }
-        return new User(user.getUserId(),user.getPassword(),authorities);
+        return new LoginUser(user,authorities);
 
     }
 }

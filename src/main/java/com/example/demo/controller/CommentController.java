@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.enums.UserRole;
 import com.example.demo.model.CommentModel;
 import com.example.demo.model.LoginUser;
 import com.example.demo.service.CommentService;
@@ -71,7 +72,9 @@ public class CommentController {
 
     // 댓글 수정 화면 요청 처리
     //@Secured({"ROLE_ADMIN","ROLE_USER"})
+    //@Secured("ROLE_ADMIN")
 
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/comments/{no}")   //화면을 가져오는건 GetMapping 씀
     public String modifyCommentForm(@PathVariable int no, Principal principal, Model model) throws Exception {
         System.out.println("로그인한 사용자:" + Optional.ofNullable(principal).map(Principal::getName).orElse("로그인안함"));
